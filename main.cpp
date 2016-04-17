@@ -48,6 +48,37 @@ struct PorownajR
 	}
 };
 
+void WczytajDane(string fileName)
+{
+	fstream file;			 //Plik z danymi.
+
+	cout << "\nPodaj nazwe pliku: ";
+	//std::cin >> fileName;
+	cout << "Nazwa pliku " << fileName << endl;
+	file.open(fileName, std::ios::in);
+
+	int liczbaZadan;	//format pliku: n  r p q r p q ...
+
+	if (file.good() == true) {
+		Zadanie obiektTmp;		//obiekt tymczasowy do wrzucania danych do wektora
+
+		file >> liczbaZadan;	 //odczytuje z pliki pierwsza linijke - ile zadan
+
+		for (int i = 0; i < liczbaZadan; i++) {
+			obiektTmp.numerZadania = i;					//przypisanie numery zadania
+			file >> obiektTmp.terminDostepnosci;		//wczytanie r
+			file >> obiektTmp.czasObslugiZad;			//wczytanie p
+			file >> obiektTmp.czasDostarczaniaZad;		//wcyztanie q   --- drugie zad 
+			dane.push_back(obiektTmp);					//wrzucenie calego obiektu na koniec
+		}
+		//*****WYSWIETLANIE WCZYTANYCH DANYCH*****
+		cout << "Liczba zad: " << liczbaZadan << endl;
+		//cout << "Wczytane dane: \n";
+		//cout << liczbaZadan << endl;
+		file.close();		//zamkniecie pliku
+	}
+	else cout << "Nie mozna wczytac pliku" << std::endl;
+}
 
 int Schrage()
 {
@@ -86,49 +117,16 @@ int Schrage()
 		kolejkaQ.pop();
 	}
 
-	cout << "\n" << "Cmax: " << Cmax; 
+	cout << "\n" << "Cmax: " << Cmax << endl;;
 
 	return Cmax;
-}
-
-void WczytajDane()
-{
-	fstream file;			 //Plik z danymi.
-	string fileName;			//Nazwa pliku do ktorego zostana wczytane dane
-	cout << "\nPodaj nazwe pliku: ";
-	//std::cin >> fileName;
-	fileName = "SCHRAGE2.dat";
-	cout << "Nazwa pliku " << fileName << endl;
-	file.open(fileName, std::ios::in);
-
-	int liczbaZadan;	//format pliku: n  r p q r p q ...
-
-	if (file.good() == true) {
-		Zadanie obiektTmp;		//obiekt tymczasowy do wrzucania danych do wektora
-
-		file >> liczbaZadan;	 //odczytuje z pliki pierwsza linijke - ile zadan
-
-		for (int i = 0; i < liczbaZadan; i++) {
-			obiektTmp.numerZadania = i;					//przypisanie numery zadania
-			file >> obiektTmp.terminDostepnosci;		//wczytanie r
-			file >> obiektTmp.czasObslugiZad;			//wczytanie p
-			file >> obiektTmp.czasDostarczaniaZad;		//wcyztanie q   --- drugie zad 
-			dane.push_back(obiektTmp);					//wrzucenie calego obiektu na koniec
-		}
-		//*****WYSWIETLANIE WCZYTANYCH DANYCH*****
-		cout << "Liczba zad: " << liczbaZadan << endl;
-		//cout << "Wczytane dane: \n";
-		//cout << liczbaZadan << endl;
-		file.close();		//zamkniecie pliku
-	}
-	else cout << "Nie mozna wczytac pliku" << std::endl;
 }
 
 int main()
 {
 	int U;	
 	//vector<Zadanie> dane; //Tutaj beda sie znajdowac wczytane dane z pliku
-	WczytajDane();
+	WczytajDane("SCHRAGE1.dat");
 	int n = dane.size();
 	int C = Schrage();
 
@@ -138,56 +136,56 @@ int main()
 
 
 	int b = 0,bi=0, a = 10000000,ai, c=0, ci;
-	for(int i = 0; i < n; i++) 
+	for(int j = 0; j < n; j++) 
 	{
-		if (b < cZadan[i])
+		if (b < cZadan[j])
 		{
-			b = cZadan[i];
-			bi = i;
+			b = cZadan[j];
+			bi = j;
 		}
 		//Cmax[i] = C+ dane[i].czasDostarczaniaZad;
 	}
-	cout << "b: " << b << " bi: " << bi << endl;
 
-	cout << "kolejnoscWykonywaniaZadan.size() : " << kolejnoscWykonywaniaZadan.size() << endl;
 
-	for (int i = 0; i < n; i++)
+	for (int j = 0; j < n; j++)
 	{
 		int suma = 0;
-		for (int j = i; j < bi; j++)
+		for (int s = j; s <= bi; s++)
 		{
-			suma += dane[kolejnoscWykonywaniaZadan[i]].czasObslugiZad;
+			suma += dane[kolejnoscWykonywaniaZadan[s]].czasObslugiZad;
 		}
 
-		if (a > dane[kolejnoscWykonywaniaZadan[i]].terminDostepnosci + suma + dane[kolejnoscWykonywaniaZadan[bi]].czasDostarczaniaZad)
+		if (a > dane[kolejnoscWykonywaniaZadan[j]].terminDostepnosci + suma + dane[kolejnoscWykonywaniaZadan[bi]].czasDostarczaniaZad)
 		{
-			a = dane[kolejnoscWykonywaniaZadan[i]].terminDostepnosci + suma + dane[kolejnoscWykonywaniaZadan[bi]].czasDostarczaniaZad;
-			ai = i;
+			a = dane[kolejnoscWykonywaniaZadan[j]].terminDostepnosci + suma + dane[kolejnoscWykonywaniaZadan[bi]].czasDostarczaniaZad;
+			ai = j;
 		}
 //		dane[i].terminDostepnosci 
 		//cout << kolejnoscWykonywaniaZadan[i] << " ";
 	}
 
 	
+
+
+
+	for (int j = kolejnoscWykonywaniaZadan[ai]; j <= kolejnoscWykonywaniaZadan[bi]; j++)
+	{
+		if (c < dane[kolejnoscWykonywaniaZadan[bi]].czasDostarczaniaZad && c < dane[kolejnoscWykonywaniaZadan[j]].czasDostarczaniaZad)
+		{
+			c = dane[kolejnoscWykonywaniaZadan[j]].czasDostarczaniaZad;
+			ci = j;
+		}
+	}
+
 	//wypisanie kolejnosci wykonywania zadan
 	cout << "\nKolejnosc Wy" << endl;
 	for (int i = 0; i < dane.size(); i++)
 	{
-		cout << kolejnoscWykonywaniaZadan[i]<<" ";
+		cout << kolejnoscWykonywaniaZadan[i] << " ";
 	}
 	cout << endl;
 	//
-
-
-	for (int i = kolejnoscWykonywaniaZadan[ai]; i <= kolejnoscWykonywaniaZadan[bi]; i++)
-	{
-		if (c < dane[kolejnoscWykonywaniaZadan[bi]].czasDostarczaniaZad)
-		{
-			c = dane[kolejnoscWykonywaniaZadan[bi]].czasDostarczaniaZad;
-			ci = i;
-		}
-	}
-
+	cout << "b: " << b << " bi: " << kolejnoscWykonywaniaZadan[bi] << endl;
 	cout << "a : " << a << " ai: "<<kolejnoscWykonywaniaZadan[ai]<< endl;
 	cout << "c : " << c << " ci: " <<kolejnoscWykonywaniaZadan[ci] << endl;
 
