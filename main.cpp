@@ -126,13 +126,11 @@ int main()
 {
 	int U;	
 	//vector<Zadanie> dane; //Tutaj beda sie znajdowac wczytane dane z pliku
-	WczytajDane("SCHRAGE1.dat");
+	WczytajDane("SCHRAGE2.dat");
 	int n = dane.size();
 	int Cmax = Schrage();
 
-
-
-	int b=0, a=0, c=0;
+	int b=-1, a=-1, c=-1;
 	// Wyznaczanie b
 	for(int j = 0; j < n; j++) 
 	{
@@ -154,17 +152,15 @@ int main()
 		if (Cmax == dane[kolejnoscWykonywaniaZadan[j]].terminDostepnosci + suma + dane[kolejnoscWykonywaniaZadan[b]].czasDostarczaniaZad)
 		{
 			a = j;
-			cout << "Znalazlem a" << endl;
 			break;
 		}
 	}
 
 	// Wyznaczanie c
-	for (int j =a; j <= b; j++)
+	for (int j = a; j <= b; j++)
 	{
 		if (dane[kolejnoscWykonywaniaZadan[j]].czasDostarczaniaZad < dane[kolejnoscWykonywaniaZadan[b]].czasDostarczaniaZad)
 		{
-			cout << "Znalazlem c" << endl;
 			c = j;
 		}
 	}
@@ -177,9 +173,18 @@ int main()
 	}
 	cout << endl;
 	//
-	cout << " b: " << kolejnoscWykonywaniaZadan[b] << " " << b << endl;
-	cout << " a: "<<kolejnoscWykonywaniaZadan[a]<< " " << a << endl;
-	cout << " c: " <<kolejnoscWykonywaniaZadan[c] << " " << c << endl;
+	if (b == -1)
+		cout << "b nie istnieje" << endl;
+	else
+		cout << " b: " << kolejnoscWykonywaniaZadan[b] << " " << b << endl;
+	if (a == -1)
+		cout << "a nie istnieje" << endl;
+	else
+		cout << " a: "<<kolejnoscWykonywaniaZadan[a]<< " " << a << endl;
+	if (c == -1)
+		cout << "c nie istnieje" << endl;
+	else
+		cout << " c: " << kolejnoscWykonywaniaZadan[c] << " " << c << endl;
 
 	U = Schrage();
 
