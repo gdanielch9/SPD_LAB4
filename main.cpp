@@ -160,9 +160,9 @@ int main()
 	}
 
 	// Wyznaczanie c
-	for (int j = kolejnoscWykonywaniaZadan[a]; j <= kolejnoscWykonywaniaZadan[b]; j++)
+	for (int j =a; j <= b; j++)
 	{
-		if (dane[kolejnoscWykonywaniaZadan[j]].czasDostarczaniaZad > dane[kolejnoscWykonywaniaZadan[b]].czasDostarczaniaZad)
+		if (dane[kolejnoscWykonywaniaZadan[j]].czasDostarczaniaZad < dane[kolejnoscWykonywaniaZadan[b]].czasDostarczaniaZad)
 		{
 			cout << "Znalazlem c" << endl;
 			c = j;
@@ -177,9 +177,9 @@ int main()
 	}
 	cout << endl;
 	//
-	cout << " bi: " << kolejnoscWykonywaniaZadan[b] << endl;
-	cout << " ai: "<<kolejnoscWykonywaniaZadan[a]<< endl;
-	cout << " ci: " <<kolejnoscWykonywaniaZadan[c] << " " << c << endl;
+	cout << " b: " << kolejnoscWykonywaniaZadan[b] << " " << b << endl;
+	cout << " a: "<<kolejnoscWykonywaniaZadan[a]<< " " << a << endl;
+	cout << " c: " <<kolejnoscWykonywaniaZadan[c] << " " << c << endl;
 
 	U = Schrage();
 
