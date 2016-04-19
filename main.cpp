@@ -112,7 +112,7 @@ int Schrage()
 		Cmax = max(Cmax, t + kolejkaQ.top().czasDostarczaniaZad);
 		kolejnoscWykonywaniaZadan.push_back(kolejkaQ.top().numerZadania);
 
-		cZadan.push_back(t + kolejkaQ.top().czasDostarczaniaZad);//przypisujemy czas wykonania zadania do carliera
+		cZadan.push_back(t);//przypisujemy czas wykonania zadania do carliera
 
 		kolejkaQ.pop();
 	}
@@ -128,52 +128,44 @@ int main()
 	//vector<Zadanie> dane; //Tutaj beda sie znajdowac wczytane dane z pliku
 	WczytajDane("SCHRAGE1.dat");
 	int n = dane.size();
-	int C = Schrage();
-
-	
+	int Cmax = Schrage();
 
 
 
-
-	int b = 0,bi=0, a = 10000000,ai, c=0, ci;
+	int b=0, a=0, c=0;
+	// Wyznaczanie b
 	for(int j = 0; j < n; j++) 
 	{
-		if (b < cZadan[j])
+		if (Cmax == cZadan[j] + dane[kolejnoscWykonywaniaZadan[j]].czasDostarczaniaZad)
 		{
-			b = cZadan[j];
-			bi = j;
+			b = j;
 		}
-		//Cmax[i] = C+ dane[i].czasDostarczaniaZad;
 	}
 
-
+	// Wyznaczanie a
 	for (int j = 0; j < n; j++)
 	{
 		int suma = 0;
-		for (int s = j; s <= bi; s++)
+		for (int s = j; s <= b; s++)
 		{
 			suma += dane[kolejnoscWykonywaniaZadan[s]].czasObslugiZad;
 		}
 
-		if (a > dane[kolejnoscWykonywaniaZadan[j]].terminDostepnosci + suma + dane[kolejnoscWykonywaniaZadan[bi]].czasDostarczaniaZad)
+		if (Cmax == dane[kolejnoscWykonywaniaZadan[j]].terminDostepnosci + suma + dane[kolejnoscWykonywaniaZadan[b]].czasDostarczaniaZad)
 		{
-			a = dane[kolejnoscWykonywaniaZadan[j]].terminDostepnosci + suma + dane[kolejnoscWykonywaniaZadan[bi]].czasDostarczaniaZad;
-			ai = j;
+			a = j;
+			cout << "Znalazlem a" << endl;
+			break;
 		}
-//		dane[i].terminDostepnosci 
-		//cout << kolejnoscWykonywaniaZadan[i] << " ";
 	}
 
-	
-
-
-
-	for (int j = kolejnoscWykonywaniaZadan[ai]; j <= kolejnoscWykonywaniaZadan[bi]; j++)
+	// Wyznaczanie c
+	for (int j = kolejnoscWykonywaniaZadan[a]; j <= kolejnoscWykonywaniaZadan[b]; j++)
 	{
-		if (c < dane[kolejnoscWykonywaniaZadan[bi]].czasDostarczaniaZad && c < dane[kolejnoscWykonywaniaZadan[j]].czasDostarczaniaZad)
+		if (dane[kolejnoscWykonywaniaZadan[j]].czasDostarczaniaZad > dane[kolejnoscWykonywaniaZadan[b]].czasDostarczaniaZad)
 		{
-			c = dane[kolejnoscWykonywaniaZadan[j]].czasDostarczaniaZad;
-			ci = j;
+			cout << "Znalazlem c" << endl;
+			c = j;
 		}
 	}
 
@@ -185,9 +177,9 @@ int main()
 	}
 	cout << endl;
 	//
-	cout << "b: " << b << " bi: " << kolejnoscWykonywaniaZadan[bi] << endl;
-	cout << "a : " << a << " ai: "<<kolejnoscWykonywaniaZadan[ai]<< endl;
-	cout << "c : " << c << " ci: " <<kolejnoscWykonywaniaZadan[ci] << endl;
+	cout << " bi: " << kolejnoscWykonywaniaZadan[b] << endl;
+	cout << " ai: "<<kolejnoscWykonywaniaZadan[a]<< endl;
+	cout << " ci: " <<kolejnoscWykonywaniaZadan[c] << " " << c << endl;
 
 	U = Schrage();
 
